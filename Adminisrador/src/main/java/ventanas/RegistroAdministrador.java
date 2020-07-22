@@ -56,8 +56,18 @@ public class RegistroAdministrador extends javax.swing.JFrame {
         });
 
         btn_modificar.setText("Modificar");
+        btn_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modificarActionPerformed(evt);
+            }
+        });
 
         btn_eliminar.setText("Eliminar");
+        btn_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Ingresa el nombre del usuario:");
 
@@ -168,14 +178,56 @@ public class RegistroAdministrador extends javax.swing.JFrame {
             if (rs.next()) {
                 txt_nombre.setText(rs.getString("nombre"));
                 txt_permiso.setText(rs.getString("id"));
+                label_status.setText("Usuario encontrado.");
             } else {
-                label_status.setText("Alumno no encontrado.");
+                label_status.setText("Usuario no encontrado.");
             }
         } catch (Exception e) {
             label_status.setText("Error: " + e);
             System.out.println("error" + e);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
+        // TODO add your handling code here:
+        try{
+            String id = txt_permiso.getText().trim();
+            Connection cn = DriverManager.getConnection("jdbc:mysql://192.168.1.178/recargasbmc",
+                    "xampp",
+                    "marquesada?466");
+            String query = "UPDATE administrador SET nombre = ? WHERE id = "+ id;
+            PreparedStatement pst = cn.prepareStatement(query);
+            pst.setString(1, txt_nombre.getText().trim());
+            pst.executeUpdate();
+            txt_nombre.setText("");
+            txt_permiso.setText("");
+            txt_busqueda.setText("");
+            label_status.setText("Usuario modificado.");
+        }catch(Exception e){
+            label_status.setText("Error: " + e);
+            System.out.println("error" + e);
+        }
+    }//GEN-LAST:event_btn_modificarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        // TODO add your handling code here:
+        try{
+            String id = txt_permiso.getText().trim();
+            Connection cn = DriverManager.getConnection("jdbc:mysql://192.168.1.178/recargasbmc",
+                    "xampp",
+                    "marquesada?466");
+            String query = "DELETE FROM administrador WHERE id ="+id;
+            PreparedStatement pst = cn.prepareStatement(query);
+            pst.executeUpdate();
+            txt_nombre.setText("");
+            txt_permiso.setText("");
+            txt_busqueda.setText("");
+            label_status.setText("Usuario eliminado.");
+        }catch(Exception e){
+            label_status.setText("Error: " + e);
+            System.out.println("error" + e);
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
 
     /**
      * @param args the command line arguments
