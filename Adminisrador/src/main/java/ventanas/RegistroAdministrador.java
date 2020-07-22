@@ -12,6 +12,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Font;
+import java.io.IOException;
 
 /**
  *
@@ -253,8 +260,22 @@ public class RegistroAdministrador extends javax.swing.JFrame {
         try {
             String ruta = System.getProperty("user.name");
             PdfWriter.getInstance(documento, new FileOutputStream("/Users/javierserranolule/Desktop/Reporte_Administrador.pdf"));
+            
+            Image header = Image.getInstance("src/main/java/img/dart.jpg");
+            // /Users/javierserranolule/Desktop/Java/Adminisrador/src/main/java/img/dart.jpg
+            header.scaleToFit(650, 1000);
+            header.setAlignment(Chunk.ALIGN_CENTER);
+            
+            Paragraph parrafo = new Paragraph();
+            parrafo.setAlignment(Paragraph.ALIGN_CENTER);
+            parrafo.add("Formato creado por Morpheus DSS\n\n");
+            parrafo.setFont(FontFactory.getFont("Tahoma", 18, Font.BOLD, BaseColor.DARK_GRAY));
+            parrafo.add("Administradores\n\n");
+            
             documento.open();
-
+            documento.add(header);
+            documento.add(parrafo);
+            
             PdfPTable tabla = new PdfPTable(1);
             tabla.addCell("NOMBRE");
 
@@ -280,6 +301,9 @@ public class RegistroAdministrador extends javax.swing.JFrame {
             documento.close();
             label_status.setText("Reporte creado");
         } catch (DocumentException | FileNotFoundException e) {
+            label_status.setText("Error: " + e);
+            System.out.println("error" + e);
+        } catch (IOException e){
             label_status.setText("Error: " + e);
             System.out.println("error" + e);
         }
