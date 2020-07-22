@@ -6,6 +6,12 @@
 package ventanas;
 
 import java.sql.*;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 /**
  *
@@ -41,6 +47,7 @@ public class RegistroAdministrador extends javax.swing.JFrame {
         txt_busqueda = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         label_status = new javax.swing.JLabel();
+        btn_reporte = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,6 +87,13 @@ public class RegistroAdministrador extends javax.swing.JFrame {
 
         label_status.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
 
+        btn_reporte.setText("Exportar Reporte");
+        btn_reporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_reporteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,9 +105,11 @@ public class RegistroAdministrador extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_modificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_eliminar))
+                        .addComponent(btn_eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_reporte))
                     .addComponent(jButton1))
-                .addGap(0, 138, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +143,8 @@ public class RegistroAdministrador extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_registrar)
                     .addComponent(btn_modificar)
-                    .addComponent(btn_eliminar))
+                    .addComponent(btn_eliminar)
+                    .addComponent(btn_reporte))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -172,9 +189,9 @@ public class RegistroAdministrador extends javax.swing.JFrame {
             String query = "SELECT * FROM administrador WHERE nombre = ?";
             PreparedStatement pst = cn.prepareStatement(query);
             pst.setString(1, txt_busqueda.getText().trim());
-            
-            ResultSet  rs = pst.executeQuery();
-            
+
+            ResultSet rs = pst.executeQuery();
+
             if (rs.next()) {
                 txt_nombre.setText(rs.getString("nombre"));
                 txt_permiso.setText(rs.getString("id"));
@@ -190,12 +207,12 @@ public class RegistroAdministrador extends javax.swing.JFrame {
 
     private void btn_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modificarActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             String id = txt_permiso.getText().trim();
             Connection cn = DriverManager.getConnection("jdbc:mysql://192.168.1.178/recargasbmc",
                     "xampp",
                     "marquesada?466");
-            String query = "UPDATE administrador SET nombre = ? WHERE id = "+ id;
+            String query = "UPDATE administrador SET nombre = ? WHERE id = " + id;
             PreparedStatement pst = cn.prepareStatement(query);
             pst.setString(1, txt_nombre.getText().trim());
             pst.executeUpdate();
@@ -203,7 +220,7 @@ public class RegistroAdministrador extends javax.swing.JFrame {
             txt_permiso.setText("");
             txt_busqueda.setText("");
             label_status.setText("Usuario modificado.");
-        }catch(Exception e){
+        } catch (Exception e) {
             label_status.setText("Error: " + e);
             System.out.println("error" + e);
         }
@@ -211,23 +228,62 @@ public class RegistroAdministrador extends javax.swing.JFrame {
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             String id = txt_permiso.getText().trim();
             Connection cn = DriverManager.getConnection("jdbc:mysql://192.168.1.178/recargasbmc",
                     "xampp",
                     "marquesada?466");
-            String query = "DELETE FROM administrador WHERE id ="+id;
+            String query = "DELETE FROM administrador WHERE id =" + id;
             PreparedStatement pst = cn.prepareStatement(query);
             pst.executeUpdate();
             txt_nombre.setText("");
             txt_permiso.setText("");
             txt_busqueda.setText("");
             label_status.setText("Usuario eliminado.");
-        }catch(Exception e){
+        } catch (Exception e) {
             label_status.setText("Error: " + e);
             System.out.println("error" + e);
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void btn_reporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reporteActionPerformed
+        // TODO add your handling code here:
+        Document documento = new Document();
+
+        try {
+            String ruta = System.getProperty("user.name");
+            PdfWriter.getInstance(documento, new FileOutputStream("/Users/javierserranolule/Desktop/Reporte_Administrador.pdf"));
+            documento.open();
+
+            PdfPTable tabla = new PdfPTable(1);
+            tabla.addCell("NOMBRE");
+
+            try {
+                Connection cn = DriverManager.getConnection("jdbc:mysql://192.168.1.178/recargasbmc",
+                        "xampp",
+                        "marquesada?466");
+                String query = "SELECT nombre FROM administrador";
+                PreparedStatement pst = cn.prepareStatement(query);
+                ResultSet rs = pst.executeQuery();
+
+                if (rs.next()) {
+
+                    do {
+                        tabla.addCell(rs.getString(1));
+                    } while (rs.next());
+                    documento.add(tabla);
+                }
+            } catch (DocumentException | SQLException e) {
+                label_status.setText("Error: " + e);
+                System.out.println("error" + e);
+            }
+            documento.close();
+            label_status.setText("Reporte creado");
+        } catch (DocumentException | FileNotFoundException e) {
+            label_status.setText("Error: " + e);
+            System.out.println("error" + e);
+        }
+    }//GEN-LAST:event_btn_reporteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,6 +324,7 @@ public class RegistroAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_modificar;
     private javax.swing.JButton btn_registrar;
+    private javax.swing.JButton btn_reporte;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
