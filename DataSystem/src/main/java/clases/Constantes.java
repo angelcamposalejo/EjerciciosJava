@@ -28,6 +28,11 @@ public class Constantes {
     private String url="http://3.133.42.51:16001/ingetel";
     
     /**
+     * Variable que contiene la versión de software
+     */
+    private String version="1.0.0.1";
+    
+    /**
      * Método que instancia la clase
      * @return Devuevle un objeto de la clase
      */
