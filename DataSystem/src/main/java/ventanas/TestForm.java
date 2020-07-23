@@ -6,6 +6,7 @@
 package ventanas;
 
 import businesslogic.PermisoBL;
+import businesslogic.VersionBL;
 import clases.Permiso;
 import dataaccess.PermisoDAO;
 import java.awt.event.MouseAdapter;
@@ -28,19 +29,37 @@ public class TestForm extends javax.swing.JFrame {
         setTitle("Pruebas");
         setResizable(false);
         this.setLocationRelativeTo(null);
-        
-        //Mostrar permisos en un combo
-        PermisoBL.getInstance().listarPermiso(comboPermiso);
-        
-        //Mostrar permisos en un table
-        mostrarPermisos();
+
+        //ObtenerVersion
+        if (VersionBL.getInstance().validarVersion() != "0") {
+            //Mostrar permisos en un combo
+            PermisoBL.getInstance().listarPermiso(comboPermiso);
+
+            //Mostrar permisos en un table
+            mostrarPermisos();
+        } else {
+            System.out.println("Actualziar");
+            comboPermiso.removeAllItems();
+            
+            tablePermiso = new JTable(model);
+            jScrollPane1.setViewportView(tablePermiso);
+
+            model.addColumn("ID");
+            model.addColumn("PERMISO");
+
+            tablePermiso.getColumnModel().getColumn(0).setMaxWidth(0);
+            tablePermiso.getColumnModel().getColumn(0).setMinWidth(0);
+            tablePermiso.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
+            tablePermiso.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+        }
     }
-    
+
     /**
      * Declaracion de variable
      */
     int permisoId = 0;
     DefaultTableModel model = new DefaultTableModel();
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -110,9 +129,9 @@ public class TestForm extends javax.swing.JFrame {
     private void comboPermisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPermisoActionPerformed
         // TODO add your handling code here:
         Permiso permiso = (Permiso) comboPermiso.getSelectedItem();
-        try{
+        try {
             permisoId = permiso.getId();
-        }catch(Exception e){
+        } catch (Exception e) {
             permisoId = 0;
         }
         System.out.println(permisoId);
@@ -120,11 +139,9 @@ public class TestForm extends javax.swing.JFrame {
 
     private void tablePermisoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePermisoMouseClicked
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_tablePermisoMouseClicked
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -167,15 +184,16 @@ public class TestForm extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * Método que muestra los permisos en un table y agrega los eventos correspondientes
+     * Método que muestra los permisos en un table y agrega los eventos
+     * correspondientes
      */
-    private void mostrarPermisos(){
+    private void mostrarPermisos() {
         tablePermiso = new JTable(model);
         jScrollPane1.setViewportView(tablePermiso);
-        
+
         model.addColumn("ID");
         model.addColumn("PERMISO");
-        
+
         ArrayList<Permiso> permisoList = PermisoDAO.getInstance().getPermiso();
         for (Permiso permiso : permisoList) {
             Object[] fila = new Object[2];
@@ -183,17 +201,17 @@ public class TestForm extends javax.swing.JFrame {
             fila[1] = permiso.getTipo();
             model.addRow(fila);
         }
-        
+
         tablePermiso.getColumnModel().getColumn(0).setMaxWidth(0);
         tablePermiso.getColumnModel().getColumn(0).setMinWidth(0);
         tablePermiso.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
         tablePermiso.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
-        
+
         tablePermiso.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e){
+            public void mouseClicked(MouseEvent e) {
                 int indice = tablePermiso.rowAtPoint(e.getPoint());
-                if(indice > -1){
+                if (indice > -1) {
                     System.out.println((String) model.getValueAt(indice, 1));
                 }
             }

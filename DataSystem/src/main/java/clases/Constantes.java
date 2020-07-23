@@ -28,9 +28,9 @@ public class Constantes {
     private String url="http://3.133.42.51:16001/ingetel";
     
     /**
-     * Variable que contiene la versión de software
+     * Variable que contiene la ruta del servicio de versiones
      */
-    private String version="1.0.0.1";
+    private String urlVersion="http://3.133.42.51:16003/obtenerVersiones";
     
     /**
      * Método que instancia la clase
@@ -42,11 +42,25 @@ public class Constantes {
         return constantes;
     }
     
+    //
+    //Permiso
+    //
     /**
      * Método que permite obtener la API para listar los permisos activos
      * @return Devuelve la ruta de la api
      */
     public String listarPermiso(){
         return url+"/usuario/listarPermiso";
+    }
+    
+    //
+    //Version
+    //
+    /**
+     * Método que permite obtener la API para conocer la versión del sistema
+     * @return Devuelve la ruta de la API
+     */
+    public String obtenerVersiones(){
+        return urlVersion;
     }
 }
