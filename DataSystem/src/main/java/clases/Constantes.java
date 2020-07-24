@@ -47,6 +47,14 @@ public class Constantes {
     //
     
     /**
+     * Método que permite obtener la API para accesar al sistema
+     * @return Devuelve la ruta de la api
+     */
+    public String accesarAdministrador(){
+        return url + "/login/admin";
+    }
+    
+    /**
      * Método que permite obtener la API para listar los usuarios
      * @return Devuevle la ruta de la api
      */

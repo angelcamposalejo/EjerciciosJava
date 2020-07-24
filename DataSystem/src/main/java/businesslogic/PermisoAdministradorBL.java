@@ -36,11 +36,22 @@ public class PermisoAdministradorBL {
         return permisoAdministradorBL;
     }
     
-    public void ingresar(String nick, String pass){
-        if (validarCamposLogin(nick, pass)) {
-            System.out.println("avanza");
+    /**
+     * Método que permite acceder al sistema
+     * @param permisoAdministrador Recibe el usuario que desea acceder al sistema
+     * @return Devuelve si se permitirá ingresar
+     */
+    public boolean ingresar(PermisoAdministrador permisoAdministrador){
+        if (validarCamposLogin(permisoAdministrador.getNickname(), permisoAdministrador.getPass())) {
+            if (PermisoAdministradorDAO.getInstance().read(permisoAdministrador) >0) {
+                System.out.println("Acceso correcto");
+                return true;
+            }else{
+                System.out.println("Favor de verificar sus credenciales");
+                return false;
+            }
         } else {
-            
+            return false;
         }
     }
     

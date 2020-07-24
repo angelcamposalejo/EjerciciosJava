@@ -5,6 +5,7 @@
  */
 package dataaccess;
 
+import businesslogic.ValidacionBL;
 import clases.Administrador;
 import clases.Constantes;
 import clases.Permiso;
@@ -16,6 +17,7 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,42 +27,46 @@ import java.util.ArrayList;
  * @author angelcampos
  */
 public class PermisoAdministradorDAO {
+
     /**
      * Variable que permite instanciar la clase
      */
     private static PermisoAdministradorDAO permisoAdministradorDAO;
-    
+
     /**
      * Constructor vacio de la clase
      */
-    public PermisoAdministradorDAO(){
-        
+    public PermisoAdministradorDAO() {
+
     }
-    
+
     /**
      * Método que instancia la clase
+     *
      * @return Devuelve un objeto de la clase
      */
-    public static PermisoAdministradorDAO getInstance(){
-        if(permisoAdministradorDAO == null)
+    public static PermisoAdministradorDAO getInstance() {
+        if (permisoAdministradorDAO == null) {
             permisoAdministradorDAO = new PermisoAdministradorDAO();
+        }
         return permisoAdministradorDAO;
     }
-    
+
     /**
      * Método que obtiene los usuario de la BD
+     *
      * @param estado Recibe el estado de los usuarios que se desea mostrar
      * @return Devuelve una lista de la clase PermisoAdministrador
      */
-    public ArrayList<PermisoAdministrador> list(int estado){
+    public ArrayList<PermisoAdministrador> list(int estado) {
         ArrayList<PermisoAdministrador> usuarioList = new ArrayList<>();
-        try{
+        try {
             URL urlRequest = new URL(Constantes.getInstance().listarUsuario());
             String readLine = null;
             HttpURLConnection conexion = (HttpURLConnection) urlRequest.openConnection();
             conexion.setRequestMethod("GET");
             int responseCode = conexion.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK){
+            if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(conexion.getInputStream()));
                 StringBuffer response = new StringBuffer();
@@ -68,11 +74,11 @@ public class PermisoAdministradorDAO {
                     response.append(readLine);
                 }
                 in.close();
-                
+
                 JsonParser parser = new JsonParser();
                 JsonArray jsonArray = parser.parse(response.toString()).getAsJsonArray();
-                
-                for ( JsonElement obj : jsonArray){
+
+                for (JsonElement obj : jsonArray) {
                     JsonObject jsonObj = obj.getAsJsonObject();
                     int id = jsonObj.get("id").getAsInt();
                     String nickname = jsonObj.get("nickname").getAsString();
@@ -86,23 +92,69 @@ public class PermisoAdministradorDAO {
                             tipo);
                     Administrador administrador = new Administrador(administrador_id,
                             nombre);
-                    PermisoAdministrador permisoAdministrador = new PermisoAdministrador(id, 
-                            nickname, 
-                            pass, 
-                            activo, 
-                            administrador, 
+                    PermisoAdministrador permisoAdministrador = new PermisoAdministrador(id,
+                            nickname,
+                            pass,
+                            activo,
+                            administrador,
                             permiso);
-                    if(activo == estado){
+                    if (activo == estado) {
                         usuarioList.add(permisoAdministrador);
                     }
                     System.out.println(obj);
                 }
                 return usuarioList;
-            }else{
+            } else {
                 return usuarioList;
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             return usuarioList;
         }
+    }
+    
+    /**
+     * Método que verifica si un usuario tiene acceso valido al sistema
+     * @param permisoAdministrador Recibe el usuario que desea acceder
+     * @return Devuelve el resultado de la verificación
+     */
+    public int read(PermisoAdministrador permisoAdministrador) {
+        final String parametros = "{\n" + "\"pass\": \"" + permisoAdministrador.getPass() + "\",\r\n"
+                + "    \"usuario\": \"" + permisoAdministrador.getNickname() + "\"" + "\n}";
+
+        try {
+            URL url = new URL(Constantes.getInstance().accesarAdministrador());
+            String readLine = null;
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestMethod("POST");
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setDoOutput(true);
+            OutputStream os = conexion.getOutputStream();
+            os.write(parametros.getBytes());
+            os.flush();
+            os.close();
+
+            int responseCode = conexion.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(conexion.getInputStream()));
+                StringBuffer response = new StringBuffer();
+                while ((readLine = in.readLine()) != null) {
+                    response.append(readLine);
+                }
+                in.close();
+                if (ValidacionBL.getInstance().validarCadenaVacia(response.toString())) {
+                    JsonParser parser = new JsonParser();
+                    Object obj = parser.parse(response.toString());
+                    JsonObject jsonObj = (JsonObject) obj;
+                    return jsonObj.get("administrador_id").getAsInt();
+                } else {
+                    return 0;
+                }
+            }
+        } catch (IOException e) {
+            return 0;
+        }
+        return 0;
     }
 }
