@@ -35,6 +35,19 @@ public class ValidacionBL {
     }
     
     /**
+     * Método que verifica si una cadena esta vacia
+     * @param cadenaEvaluar Recibe la cadena a evaluar
+     * @return Devuevle el resultado de la verificación
+     */
+    public boolean validarCadenaVacia(String cadenaEvaluar){
+        if (cadenaEvaluar != null && !cadenaEvaluar.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * Método que evita sean ingresados espacios en una cadena
      * @param evt Recibe la tecla presioanda por el usuario
      */

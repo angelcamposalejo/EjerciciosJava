@@ -32,6 +32,9 @@ public class LoginForm extends javax.swing.JFrame {
 
         lbl_nick = new javax.swing.JLabel();
         txt_nick = new javax.swing.JTextField();
+        lbl_pass = new javax.swing.JLabel();
+        txt_pass = new javax.swing.JTextField();
+        btn_accesar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,17 +46,36 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        lbl_pass.setText("Pass");
+
+        btn_accesar.setText("Entrar");
+        btn_accesar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_accesarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_nick, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txt_pass, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_nick, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(230, 230, 230))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_nick, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_pass))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(txt_nick, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 230, Short.MAX_VALUE))
+                .addGap(40, 40, 40)
+                .addComponent(btn_accesar)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -62,7 +84,13 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(lbl_nick)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_nick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(496, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lbl_pass)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_accesar)
+                .addContainerGap(395, Short.MAX_VALUE))
         );
 
         pack();
@@ -72,6 +100,15 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         ValidacionBL.getInstance().validarSinEspacio(evt);
     }//GEN-LAST:event_txt_nickKeyTyped
+
+    private void btn_accesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_accesarActionPerformed
+        // TODO add your handling code here:
+        if (ValidacionBL.getInstance().validarCadenaVacia(txt_nick.getText())) {
+            System.out.println("bien");
+        } else {
+            System.out.println("mal");
+        }
+    }//GEN-LAST:event_btn_accesarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -109,7 +146,10 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_accesar;
     private javax.swing.JLabel lbl_nick;
+    private javax.swing.JLabel lbl_pass;
     private javax.swing.JTextField txt_nick;
+    private javax.swing.JTextField txt_pass;
     // End of variables declaration//GEN-END:variables
 }
