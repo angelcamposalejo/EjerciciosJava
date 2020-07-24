@@ -104,4 +104,17 @@ public class ValidacionBL {
             evt.consume();
         }
     }
+    
+    /**
+     * Método qu evita sean ingresados carácteres diferentes a digitos
+     * @param evt 
+     */
+    public void validarSoloNumeros(java.awt.event.KeyEvent evt){
+        char caracterIntroducido = evt.getKeyChar();
+        if (!(Character.isDigit(caracterIntroducido)
+                || (caracterIntroducido == KeyEvent.VK_BACK_SPACE)
+                || (caracterIntroducido == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }
 }
