@@ -5,9 +5,12 @@
  */
 package ventanas;
 
+import businesslogic.ValidacionBL;
+import java.awt.event.KeyEvent;
+
 /**
  *
- * @author javierserranolule
+ * @author angelcampos
  */
 public class LoginForm extends javax.swing.JFrame {
 
@@ -27,26 +30,48 @@ public class LoginForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel_WallPaper = new javax.swing.JLabel();
+        lbl_nick = new javax.swing.JLabel();
+        txt_nick = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lbl_nick.setText("Nick");
+
+        txt_nick.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nickKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jLabel_WallPaper, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                .addGap(108, 108, 108))
+                .addContainerGap()
+                .addComponent(lbl_nick, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(txt_nick, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 230, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel_WallPaper, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_nick)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_nick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(496, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txt_nickKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nickKeyTyped
+        // TODO add your handling code here:
+        ValidacionBL.getInstance().validarSinEspacio(evt);
+    }//GEN-LAST:event_txt_nickKeyTyped
 
     /**
      * @param args the command line arguments
@@ -84,6 +109,7 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel_WallPaper;
+    private javax.swing.JLabel lbl_nick;
+    private javax.swing.JTextField txt_nick;
     // End of variables declaration//GEN-END:variables
 }
