@@ -36,6 +36,14 @@ public class PermisoAdministradorBL {
         return permisoAdministradorBL;
     }
     
+    public void ingresar(String nick, String pass){
+        if (validarCamposLogin(nick, pass)) {
+            System.out.println("avanza");
+        } else {
+            
+        }
+    }
+    
     /**
      * Método que devuelve la lista de usuario
      * @param estado Recibe el estado que se requiere mostrar
@@ -46,6 +54,26 @@ public class PermisoAdministradorBL {
             return PermisoAdministradorDAO.getInstance().list(estado);
         }catch(Exception e){
             return new ArrayList<>();
+        }
+    }
+    
+    /**
+     * Método para validar que los campos para accesar sean corresctos
+     * @param nick Recibe el nick proporcionado por el usuario
+     * @param pass Recibe el password proporcionado por el usuario
+     * @return Devuelve el resultado de la validación
+     */
+    private boolean validarCamposLogin(String nick, String pass){
+        if (ValidacionBL.getInstance().validarCadenaVacia(nick)) {
+            if (ValidacionBL.getInstance().validarCadenaVacia(pass)) {
+                return true;
+            }else{
+                System.out.println("Pass vacio");
+                return false;
+            }
+        }else{
+            System.out.println("Nick vacio");
+            return false;
         }
     }
 }

@@ -5,6 +5,7 @@
  */
 package ventanas;
 
+import businesslogic.PermisoAdministradorBL;
 import businesslogic.ValidacionBL;
 import java.awt.event.KeyEvent;
 
@@ -103,11 +104,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void btn_accesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_accesarActionPerformed
         // TODO add your handling code here:
-        if (ValidacionBL.getInstance().validarCadenaVacia(txt_nick.getText())) {
-            System.out.println("bien");
-        } else {
-            System.out.println("mal");
-        }
+        PermisoAdministradorBL.getInstance().ingresar(txt_nick.getText(), txt_pass.getText());
     }//GEN-LAST:event_btn_accesarActionPerformed
 
     /**
