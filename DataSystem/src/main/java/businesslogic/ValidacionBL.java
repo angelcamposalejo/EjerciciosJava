@@ -35,6 +35,26 @@ public class ValidacionBL {
     }
     
     /**
+     * Método que capitaliza una cadena
+     * @param cadenaEvaluar Recibe la cadena que se capizalizará
+     * @return Devuelve la cadena capitalizada
+     */
+    public String capitalizarCadena(String cadenaEvaluar){
+        cadenaEvaluar = cadenaEvaluar.toLowerCase();
+        String[] palabras = cadenaEvaluar.split(" ");
+        String cadenaCapitalizada = "";
+        for (int i = 0; i < palabras.length; i++) {
+            if(i > 0){
+                cadenaCapitalizada += " ";
+            }
+            String resultado = palabras[i].toUpperCase().charAt(0) + palabras[i].substring(1, palabras[i].length()).toLowerCase();
+            cadenaCapitalizada += resultado;
+            palabras[i] = resultado;
+        }
+        return cadenaCapitalizada;
+    }
+    
+    /**
      * Método que verifica si una cadena esta vacia
      * @param cadenaEvaluar Recibe la cadena a evaluar
      * @return Devuevle el resultado de la verificación
