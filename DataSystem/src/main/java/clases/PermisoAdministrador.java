@@ -13,7 +13,7 @@ public class PermisoAdministrador {
     private int id;
     private String nickname;
     private String pass;
-    private boolean activo;
+    private int activo;
     private Administrador administrador;
     private Permiso permiso;
     
@@ -30,7 +30,7 @@ public class PermisoAdministrador {
         this.pass = pass;
     }
     
-    public PermisoAdministrador(String nickname, String pass, boolean activo,Administrador administrador, Permiso permiso){
+    public PermisoAdministrador(String nickname, String pass, int activo,Administrador administrador, Permiso permiso){
         this.nickname = nickname;
         this.pass = pass;
         this.activo = activo;
@@ -38,7 +38,7 @@ public class PermisoAdministrador {
         this.permiso = permiso;
     }
     
-    public PermisoAdministrador(int id,String nickname, String pass, boolean activo,Administrador administrador, Permiso permiso){
+    public PermisoAdministrador(int id,String nickname, String pass, int activo,Administrador administrador, Permiso permiso){
         this.id = id;
         this.nickname = nickname;
         this.pass = pass;
@@ -71,11 +71,11 @@ public class PermisoAdministrador {
         return pass;
     }
     
-    public void setActivo(boolean activo){
+    public void setActivo(int activo){
         this.activo = activo;
     }
     
-    public boolean getActivo(){
+    public int getActivo(){
         return activo;
     }
     

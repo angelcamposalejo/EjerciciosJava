@@ -5,9 +5,11 @@
  */
 package ventanas;
 
+import businesslogic.PermisoAdministradorBL;
 import businesslogic.PermisoBL;
 import businesslogic.VersionBL;
 import clases.Permiso;
+import clases.PermisoAdministrador;
 import dataaccess.PermisoDAO;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -36,7 +38,9 @@ public class TestForm extends javax.swing.JFrame {
             PermisoBL.getInstance().listarPermiso(comboPermiso);
 
             //Mostrar permisos en un table
-            mostrarPermisos();
+            //mostrarPermisos();
+            
+            mostrarUsuario();
         } else {
             System.out.println("Actualziar");
             comboPermiso.removeAllItems();
@@ -216,5 +220,62 @@ public class TestForm extends javax.swing.JFrame {
                 }
             }
         });
+    }
+    
+    /**
+     * Método que muestra los usuario en un table
+     */
+    private void mostrarUsuario(){
+        tablePermiso = new JTable(model);
+        jScrollPane1.setViewportView(tablePermiso);
+        
+        model.addColumn("PAID");
+        model.addColumn("NICK");
+        model.addColumn("PASS");
+        model.addColumn("ACTIVO");
+        model.addColumn("AID");
+        model.addColumn("NOMBRE");
+        model.addColumn("PID");
+        model.addColumn("PERMISO");
+        
+        ArrayList<PermisoAdministrador> usuarioList = PermisoAdministradorBL.getInstance().listarUsuario(1);
+        for (PermisoAdministrador permisoAdministrador : usuarioList) {
+            Object[] fila = new Object[8];
+            fila[0] = permisoAdministrador.getId();
+            fila[1] = permisoAdministrador.getNickname();
+            fila[2] = permisoAdministrador.getPass();
+            fila[3] = permisoAdministrador.getActivo();
+            fila[4] = permisoAdministrador.getAdministrador().getId();
+            fila[5] = permisoAdministrador.getAdministrador().getNombre();
+            fila[6] = permisoAdministrador.getPermiso().getId();
+            fila[7] = permisoAdministrador.getPermiso().getTipo();
+            model.addRow(fila);
+        }
+        
+        tablePermiso.getColumnModel().getColumn(0).setMaxWidth(0);
+        tablePermiso.getColumnModel().getColumn(0).setMinWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(0).setMaxWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(0).setMinWidth(0);
+        tablePermiso.getColumnModel().getColumn(0).setMaxWidth(1);
+        tablePermiso.getColumnModel().getColumn(0).setMinWidth(1);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(1).setMaxWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);
+        tablePermiso.getColumnModel().getColumn(2).setMaxWidth(0);
+        tablePermiso.getColumnModel().getColumn(2).setMinWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(2).setMaxWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(2).setMinWidth(0);
+        tablePermiso.getColumnModel().getColumn(3).setMaxWidth(0);
+        tablePermiso.getColumnModel().getColumn(3).setMinWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
+        tablePermiso.getColumnModel().getColumn(4).setMaxWidth(0);
+        tablePermiso.getColumnModel().getColumn(4).setMinWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(4).setMaxWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(4).setMinWidth(0);
+        tablePermiso.getColumnModel().getColumn(6).setMaxWidth(0);
+        tablePermiso.getColumnModel().getColumn(6).setMinWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(6).setMaxWidth(0);
+        tablePermiso.getTableHeader().getColumnModel().getColumn(6).setMinWidth(0);
+        
     }
 }

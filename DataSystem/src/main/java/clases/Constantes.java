@@ -43,8 +43,21 @@ public class Constantes {
     }
     
     //
+    //Administrador
+    //
+    
+    /**
+     * Método que permite obtener la API para listar los usuarios
+     * @return Devuevle la ruta de la api
+     */
+    public String listarUsuario(){
+        return url+"/usuario/listarUsuario";
+    }
+    
+    //
     //Permiso
     //
+    
     /**
      * Método que permite obtener la API para listar los permisos activos
      * @return Devuelve la ruta de la api
@@ -56,6 +69,7 @@ public class Constantes {
     //
     //Version
     //
+    
     /**
      * Método que permite obtener la API para conocer la versión del sistema
      * @return Devuelve la ruta de la API
