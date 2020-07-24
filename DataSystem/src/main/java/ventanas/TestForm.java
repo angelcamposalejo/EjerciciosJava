@@ -192,7 +192,7 @@ public class TestForm extends javax.swing.JFrame {
 
     private void txt_nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyTyped
         // TODO add your handling code here:
-        //txt_nombre.setText("a");
+        ValidacionBL.getInstance().validarDobleEspacio(txt_nombre.getText(), evt);
     }//GEN-LAST:event_txt_nombreKeyTyped
 
     private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
