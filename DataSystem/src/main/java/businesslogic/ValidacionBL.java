@@ -61,25 +61,26 @@ public class ValidacionBL {
             return "";
         }
     }
-    
+
     /**
      * Método que evita se tecleen espacios dobles y al inicio de una cadena
+     *
      * @param cadenaEvaluar Recibe la cadena averificar
      * @param evt Recibe la tecla presionanda por el usuario
      */
-    public void validarDobleEspacio(String cadenaEvaluar,java.awt.event.KeyEvent evt){
+    public void validarDobleEspacio(String cadenaEvaluar, java.awt.event.KeyEvent evt) {
         if (evt.getKeyChar() == KeyEvent.VK_SPACE) {
-            if(validarCadenaVacia(cadenaEvaluar)){
-                char ultimaLetra =cadenaEvaluar.charAt(cadenaEvaluar.length() - 1);
+            if (validarCadenaVacia(cadenaEvaluar)) {
+                char ultimaLetra = cadenaEvaluar.charAt(cadenaEvaluar.length() - 1);
                 if (ultimaLetra == ' ') {
                     evt.consume();
                 }
-            }else{
+            } else {
                 evt.consume();
             }
         }
     }
-    
+
     /**
      * Método que verifica si una cadena esta vacia
      *
@@ -104,12 +105,13 @@ public class ValidacionBL {
             evt.consume();
         }
     }
-    
+
     /**
      * Método qu evita sean ingresados carácteres diferentes a digitos
-     * @param evt 
+     *
+     * @param evt
      */
-    public void validarSoloNumeros(java.awt.event.KeyEvent evt){
+    public void validarSoloNumeros(java.awt.event.KeyEvent evt) {
         char caracterIntroducido = evt.getKeyChar();
         if (!(Character.isDigit(caracterIntroducido)
                 || (caracterIntroducido == KeyEvent.VK_BACK_SPACE)
