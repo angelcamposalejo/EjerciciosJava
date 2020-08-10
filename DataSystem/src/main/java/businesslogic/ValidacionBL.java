@@ -108,15 +108,30 @@ public class ValidacionBL {
 
     /**
      * Método qu evita sean ingresados carácteres diferentes a digitos
+     * y superiores a diez dígitos
      *
-     * @param evt
+     * @param cadenaEvaluar Recibe la cadena de texto a evaluar
+     * @param evt Recible la tecla presionada por el usuario
      */
-    public void validarSoloNumeros(java.awt.event.KeyEvent evt) {
-        char caracterIntroducido = evt.getKeyChar();
-        if (!(Character.isDigit(caracterIntroducido)
-                || (caracterIntroducido == KeyEvent.VK_BACK_SPACE)
-                || (caracterIntroducido == KeyEvent.VK_DELETE))) {
-            evt.consume();
+    public void validarSoloNumeros(String cadenaEvaluar, java.awt.event.KeyEvent evt) {
+        if (validarCadenaVacia(cadenaEvaluar)) {
+            char caracterIntroducido = evt.getKeyChar();
+            if (!(Character.isDigit(caracterIntroducido)
+                    || (caracterIntroducido == KeyEvent.VK_BACK_SPACE)
+                    || (caracterIntroducido == KeyEvent.VK_DELETE))) {
+                evt.consume();
+            }else{
+                if(cadenaEvaluar.length() == 0){
+                    evt.consume();
+                }
+            }
+        } else {
+            char caracterIntroducido = evt.getKeyChar();
+            if (!(Character.isDigit(caracterIntroducido)
+                    || (caracterIntroducido == KeyEvent.VK_BACK_SPACE)
+                    || (caracterIntroducido == KeyEvent.VK_DELETE))) {
+                evt.consume();
+            }
         }
     }
 }
